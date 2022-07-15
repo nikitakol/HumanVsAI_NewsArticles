@@ -71,6 +71,8 @@ However, there are several limitations to be considered when using GPT-3 such as
 The CRISP-DM process model has been applied to answer the question "How well can people
 distinguish between authentic and synthetic news articles, compared to AI?". First and foremost, AI proved to be more capable than humans in distinguishing between authentic and synthetic news. In other words, the NLG capabilities of AI engines have become so advanced that humans can no longer see the difference. With the recent rise of AI capabilities, a significant gap in human understanding of the latter has emerged. This led to an almost random distribution of responses in the survey, while AI proved to be way more effective in identifying text sources, specifically accurate in classifying synthetic contents.
 
+Grade - 12
+
 ## Authors
 Bogusz Dyoniziak - https://www.linkedin.com/in/bogusz-dyoniziak-79351a21b/
 
