@@ -1,9 +1,9 @@
 # HumanVsAI_NewsArticles 	:computer:
 
-# I. Abstract
+## I. Abstract
 The goal of this project is to examine human capabilities in distinguishing between human and AI news articles, compared to AI. GPT-3 was utilized to generate NLG articles, resembling authentic counterparts. The results are interesting: AI performance is superb while human differentiation capabilities are better than random guessing. Humans tend to underestimate AI capabilities while it can be argued that AI classifiers overestimate NLG capabilities. While humans remain equally poor at recognizing both AI and human-written articles, AI classifiers perform better in identifying AI-generated material.
 
-# II. Materials and Methods
+## II. Materials and Methods
 The dataset used in this project is called BBC News Archive, which is a collection of news articles from BBC News written between 2004 and 2005. The initial version of the dataset has been retrieved from Kaggle and comprises 2225 instances described by five features. The dataset was initially used for a research article published in 2006 covering the problem of diagonal dominance in kernel document clustering.
 
 ### Data Preprocessing
@@ -21,8 +21,68 @@ To later compare the results to the classifier, a survey has been created using 
 ### Survey Data Analysis Methodology
 After closing the survey, the respective data was analyzed in R. To ensure proper analysis, the data was cleaned and parts of it transformed to fit the code of conduct, followed by data manipulation. Besides some minor commands, the most important modification occurred in the Nationality column. Because of data distribution, it was difficult to determine proper testing methods. Given the data characteristics, popular methods like linear regression were not possible. Due to the nature of score values which can only occur in four different values, first, an Ordinal Logistic Regression (OLR) was performed.
 
-# Results
-Appendix D displays this matrix as a heatmap. In general, solely relatively weak correlation levels exist, as no correlation exceeds 0.5 in absolute terms. Nevertheless, the matrix displays some increased values. Those are (for positive correlations) between technological and English proficiencies (46%), English proficiency and education (35%), as well as technological proficiency and education (29%), among others. For negative correlations, those between English proficiency and Age (-20%), technological proficiency and gender (-19%), and age and technological proficiency (-13%) were most severe. The average score of 1.503 (min= 0, max = 3) barely exceeded that of random guessing. However, the difference in classification scores be tween the two types of articles did not deviate much with 51.04% for synthetic and 49.37% for authentic articles. Furthermore, the classification results of human surveyees have been computed and are summarized in Table 3.
+## III. Results
 
-# Classification Results
+![image](https://user-images.githubusercontent.com/48565455/179261634-ed30dc1b-03e9-4c57-8da6-0a8f086161f6.png)
+
+In general, solely relatively weak correlation levels exist, as no correlation exceeds 0.5 in absolute terms. Nevertheless, the matrix displays some increased values. Those are (for positive correlations) between technological and English proficiencies (46%), English proficiency and education (35%), as well as technological proficiency and education (29%), among others. For negative correlations, those between English proficiency and Age (-20%), technological proficiency and gender (-19%), and age and technological proficiency (-13%) were most severe. The average score of 1.503 (min= 0, max = 3) barely exceeded that of random guessing. However, the difference in classification scores be tween the two types of articles did not deviate much with 51.04% for synthetic and 49.37% for authentic articles. 
+
+|                               | Accuracy | Precision | Recall | F1 - Score |
+| ----------------------------- | -------- |---------- | ------ | ------ |
+| Human Classification Results  |   50.47% |  51.04%   | 45.58% | 48.16% |
+
+
+### Classification Results
 #### Multinomial Naive Bayes
+The function of the MBN, in this case, is to serve as a baseline for comparison.
+
+| Baseline Classifier           | Accuracy | Precision | Recall | F1 - Score |
+| ----------------------------- | -------- |---------- | ------ | ------ |
+|          MNB                  |   56.06% |  54.78%   | 97.06% | 69.47% |
+
+#### Support Vector Machine
+Using a 10-fold cross-validated gridsearch, the SVM is hyperparameter-tuned. Using the optimal parameters of C = 10, gamma = 1, and kernel = sigmoid, the optimal classification scoring was achieved for the SVM.
+
+| Classifier           | Accuracy | Precision | Recall | F1 - Score |
+| ----------------------------- | -------- |---------- | ------ | ------ |
+|          SVC                  |   66.67% |  66.36%   | 76.47% | 70.27% |
+
+#### eXtreme Gradient Boosting
+XGB is a tree boosting system, which incorporates a regularized model to smooth out the final weights avoid overfitting. Using a 10-fold cross-validated gridsearch to iterate over possible feature combinations, the set of parameters that have been selected for fine-tuning is presented.
+
+| Classifier           | Accuracy | Precision | Recall | F1 - Score |
+| ----------------------------- | -------- |---------- | ------ | ------ |
+|          XGB                  |   92.42% |  92.19%   | 100.00% | 93.15% |
+
+## IV. Discussion
+
+![image](https://user-images.githubusercontent.com/48565455/179261418-6fc8908d-51fb-432f-8d58-19edfe9b64fc.png)
+
+
+As can be seen in the top left heatmap, humans only manage (214÷429=49.88%) correct predictions, which is worse even than the baseline machine learning model (39÷66=59.09%). Surveyees most often chose false negatives (27%) and true negatives (28%) of all responses. It shows that on average people tend to classify news articles as authentic (55% of total answers) rather than synthetic. However, the ML classifiers performed differently. SVM correctly classified true positives (40%) and false negatives (27%), while false positives and true negatives accounted for the remaining 33%. Although both types of articles had an equal share in the test data, ML classifiers tended to classify more articles as synthetic (60%) than authentic (40%). Further, AI was substantially better in identifying synthetic data (52% of the dataset) - only 12% of the total articles were classified incorrectly (i.e. as authentic) while almost 40% of all were classified correctly as synthetic.
+
+### Deployment
+In a real-life business scenario application, GPT-3 is being deployed in multiple instances. CopySmith makes use of GPT-3 to give a plethora of templates for modifying current copies and creating new text-based content from limited prompts. Writesonic, a competitor of CopySmith, is a beta article writer that demands hand-written content in order to acquire a numerical quantity of texts. This provides more information into a new growing industry within the AI archetype for manipulating and constructing text-generated data utilizing GPT-3 for social media (SoMe) companies.
+
+### Limitations
+However, there are several limitations to be considered when using GPT-3 such as reliability, interpretability, accessibility, speed, and many others. To perform this type of research, it would be ideal to employ a service such as Amazon Mechanical Turk to receive a clear, unbiased perspective from the evaluators. Yet without any proper funding, it would not be possible to use this type of survey. In this case, most of the surveyees were confident in English, college-educated, young adults, technologically proficient, and had an insufficient amount of news exposure to some degree. All in all, this may not show a diverse-enough range of attributes within the survey to provide a representative view of the thoughts and perspectives of the broad masses. Furthermore, the cost of OpenAI’s GPT-3 was a trivial pursuit due to a given limited budget of USD 18, when creating an account in order to effectively create AI-written articles of the quality we desired.
+
+## V. Conclusion
+The CRISP-DM process model has been applied to answer the question "How well can people
+distinguish between authentic and synthetic news articles, compared to AI?". First and foremost, AI proved to be more capable than humans in distinguishing between authentic and synthetic news. In other words, the NLG capabilities of AI engines have become so advanced that humans can no longer see the difference. With the recent rise of AI capabilities, a significant gap in human understanding of the latter has emerged. This led to an almost random distribution of responses in the survey, while AI proved to be way more effective in identifying text sources, specifically accurate in classifying synthetic contents.
+
+## Authors
+Bogusz Dyoniziak - https://www.linkedin.com/in/bogusz-dyoniziak-79351a21b/
+
+Frederik Friborg - https://www.linkedin.com/in/frederikfriborg/
+
+Nikita Kolmakov - https://www.linkedin.com/in/nikitakolmakov/
+
+Lukas Schwendenwein - https://www.linkedin.com/in/lukas-s-29a2bb18b/
+
+## Acknowledgements 
+OpenAI - https://openai.com/api/
+
+Kaggle - https://www.kaggle.com/datasets/hgultekin/bbcnewsarchive
+
+BBC Archive - https://www.bbc.co.uk/archive/archive-services
